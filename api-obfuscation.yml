@@ -1,0 +1,54 @@
+rules:
+  - id: api-obfuscation
+    languages:
+      - python
+    message: This package uses obfuscated API calls that may evade static analysis detection
+    metadata:
+      description: Identify obfuscated API calls using alternative Python syntax patterns
+    patterns:
+      - pattern-either:
+        # __dict__ access patterns
+        - pattern: $MODULE.__dict__[$METHODSTR]($...ARGS)
+        - pattern: $MODULE.__dict__[$METHODSTR].__call__($...ARGS)
+        
+        # __getattribute__ patterns  
+        - pattern: $MODULE.__getattribute__($METHODSTR)($...ARGS)
+        - pattern: $MODULE.__getattribute__($METHODSTR).__call__($...ARGS)
+        
+        # __import__ with direct method call
+        - pattern: __import__($MODSTR).$METHOD($...ARGS)
+        - pattern: __import__($MODSTR).$METHOD.__call__($...ARGS)
+        
+        # __import__ with __dict__ access
+        - pattern: __import__($MODSTR).__dict__[$METHODSTR]($...ARGS)
+        - pattern: __import__($MODSTR).__dict__[$METHODSTR].__call__($...ARGS)
+        
+        # __import__ with __getattribute__
+        - pattern: __import__($MODSTR).__getattribute__($METHODSTR)($...ARGS)
+        - pattern: __import__($MODSTR).__getattribute__($METHODSTR).__call__($...ARGS)
+        
+        # getattr patterns with module object
+        - pattern: getattr($MODULE, $METHODSTR)($...ARGS)
+        - pattern: getattr($MODULE, $METHODSTR).__call__($...ARGS)
+        
+        # getattr patterns with __import__
+        - pattern: getattr(__import__($MODSTR), $METHODSTR)($...ARGS)
+        - pattern: getattr(__import__($MODSTR), $METHODSTR).__call__($...ARGS)
+
+      # Ensure string arguments are actually strings (not complex expressions)
+      # - metavariable-regex:
+      #     metavariable: $MODULE
+      #     # we can also use the more generic ^\w+$ for Unicode word characters
+      #     regex: '[A-Za-z_][A-Za-z0-9_]*'
+      # - metavariable-regex:
+      #     metavariable: $METHOD
+      #     regex: '[A-Za-z_][A-Za-z0-9_]*'
+      # - metavariable-regex:
+      #     metavariable: $MODSTR
+      #     # Alternative: '^("|\')[A-Za-z_][A-Za-z0-9_]*\1$'
+      #     regex: "[\"'][A-Za-z_][A-Za-z0-9_]*[\"']"
+      # - metavariable-regex:
+      #     metavariable: $METHODSTR
+      #     regex: "[\"'][A-Za-z_][A-Za-z0-9_]*[\"']"
+
+    severity: WARNING

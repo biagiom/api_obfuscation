@@ -1,0 +1,19 @@
+{
+    "package": "./packages_pypi/1337c-4.4.7_obfuscated",
+    "issues": 0,
+    "errors": {},
+    "results": {
+        "dll-hijacking": {},
+        "silent-process-execution": {},
+        "clipboard-access": {},
+        "steganography": {},
+        "download-executable": {},
+        "exec-base64": {},
+        "exfiltrate-sensitive-data": {},
+        "shady-links": {},
+        "obfuscation": {},
+        "code-execution": {},
+        "cmd-overwrite": {}
+    },
+    "path": "./packages_pypi/1337c-4.4.7_obfuscated"
+}

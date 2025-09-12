@@ -1,0 +1,1 @@
+Found 0 potentially malicious indicators scanning ./packages_pypi/1337c-4.4.7_obfuscated
