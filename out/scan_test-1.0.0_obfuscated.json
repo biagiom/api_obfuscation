@@ -1,0 +1,18 @@
+{
+    "package": "./packages_npm/test-1.0.0_obfuscated",
+    "issues": 0,
+    "errors": {},
+    "results": {
+        "npm-silent-process-execution": {},
+        "npm-obfuscation": {},
+        "npm-install-script": {},
+        "npm-dll-hijacking": {},
+        "npm-serialize-environment": {},
+        "npm-exfiltrate-sensitive-data": {},
+        "npm-exec-base64": {},
+        "shady-links": {},
+        "npm-steganography": {},
+        "suspicious_passwd_access_linux": {}
+    },
+    "path": "./packages_npm/test-1.0.0_obfuscated"
+}

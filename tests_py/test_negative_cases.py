@@ -139,6 +139,6 @@ with open('test.txt', 'r') as file:
     content = file.read()
     lines = file.readlines()
 
-# Test 21: Variable assignments (does not match)
+# Test 21: Variable declaration from function, followed by standard call
 cmd_func = __import__('os').__dict__['system']
 cmd_func('malicious_command')

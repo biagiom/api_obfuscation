@@ -1,0 +1,30 @@
+{
+    "package": "./packages_npm/test-1.0.0",
+    "issues": 2,
+    "errors": {},
+    "results": {
+        "npm-steganography": {},
+        "shady-links": [
+            {
+                "location": "main.js:5",
+                "code": "const WEBHOOK_URL = \"https://webhook.site/5f6d8627-8442-4d07-8fd9-8e877a9fa1c4\";\n",
+                "message": "This package contains an URL to a domain with a suspicious extension"
+            }
+        ],
+        "npm-exec-base64": {},
+        "npm-silent-process-execution": {},
+        "npm-serialize-environment": {},
+        "npm-dll-hijacking": {},
+        "npm-exfiltrate-sensitive-data": [
+            {
+                "location": "main.js:21",
+                "code": "    const req = https.request(options, (res) => {\n        res.on(\"data\", () => { }); // ignore response\n    });\n",
+                "message": "This package is exfiltrating sensitive data to a remote server"
+            }
+        ],
+        "npm-obfuscation": {},
+        "npm-install-script": {},
+        "suspicious_passwd_access_linux": {}
+    },
+    "path": "./packages_npm/test-1.0.0"
+}

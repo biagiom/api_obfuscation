@@ -24,18 +24,18 @@ rules:
               - metavariable-regex:
                   metavariable: $MODULE
                   regex: "^[A-Za-z_][A-Za-z0-9_\\.]*$|^__import__\\([\"'][A-Za-z_][A-Za-z0-9_]*[\"']\\)$"
-              - metavariable-regex:
-                  metavariable: $METHOD
-                  regex: "^[\"'][A-Za-z_][A-Za-z0-9_]*[\"']$"
+              # - metavariable-regex:
+              #     metavariable: $METHOD
+              #     regex: "^[\"'][A-Za-z_][A-Za-z0-9_]*[\"']$"
 
           # --- Additional Cases: __import__('mod').method(...) / .__call__(...)
           - patterns:
               - pattern-either:
                   - pattern: __import__($MODULE).$METHOD($...ARGS)
                   - pattern: __import__($MODULE).$METHOD.__call__($...ARGS)
-              - metavariable-regex:
-                  metavariable: $MODULE
-                  regex: "^[\"'][A-Za-z_][A-Za-z0-9_]*[\"']$"
+              # - metavariable-regex:
+              #     metavariable: $MODULE
+              #     regex: "^[\"'][A-Za-z_][A-Za-z0-9_]*[\"']$"
               - metavariable-regex:
                   metavariable: $METHOD
                   # avoid matching __getattribute__

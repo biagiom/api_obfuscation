@@ -1,0 +1,167 @@
+┌──────────────────┐
+│ 63 Code Findings │
+└──────────────────┘
+                                                  
+    tests_js/test_positive_cases.js
+    ❯❱ npm-api-obfuscation
+          This package uses obfuscated API calls that may evade static analysis detection
+                                                                                         
+            8┆ process['spawn']('node', ['malicious_script.js']);
+            ⋮┆----------------------------------------
+            9┆ process['spawn'].call(process, 'node', ['malicious_script.js']);
+            ⋮┆----------------------------------------
+           10┆ process['spawn'].apply({}, ['node', ['malicious_script.js']]);
+            ⋮┆----------------------------------------
+           11┆ process['spawn'].bind({}, 'node', ['malicious_script.js'])();
+            ⋮┆----------------------------------------
+           14┆ Reflect.get(process, 'spawn')('node', ['malicious_script.js']);
+            ⋮┆----------------------------------------
+           15┆ Reflect.get(process, 'spawn').call(process, 'node', ['malicious_script.js']);
+            ⋮┆----------------------------------------
+           16┆ Reflect.get(process, 'spawn').apply({}, ['node', ['malicious_script.js']]);
+            ⋮┆----------------------------------------
+           17┆ Reflect.get(process, 'spawn').bind({}, 'node', ['malicious_script.js'])();
+            ⋮┆----------------------------------------
+           20┆ Object.getOwnPropertyDescriptor(process, 'spawn').value('node', ['malicious_script.js']);
+            ⋮┆----------------------------------------
+           21┆ Object.getOwnPropertyDescriptor(process, 'spawn').value.call(process, 'node',
+               ['malicious_script.js']);                                                    
+            ⋮┆----------------------------------------
+           22┆ Object.getOwnPropertyDescriptor(process, 'spawn').value.apply({}, ['node',
+               ['malicious_script.js']]);                                                
+            ⋮┆----------------------------------------
+           23┆ Object.getOwnPropertyDescriptor(process, 'spawn').value.bind({}, 'node',
+               ['malicious_script.js'])();                                             
+            ⋮┆----------------------------------------
+           26┆ process[Object.getOwnPropertyNames(process).find(name => name === 'spawn')]('node',
+               ['malicious_script.js']);                                                          
+            ⋮┆----------------------------------------
+           27┆ process[Object.getOwnPropertyNames(process).find(name => name === 'spawn')].call(process,
+               'node', ['malicious_script.js']);                                                        
+            ⋮┆----------------------------------------
+           28┆ process[Object.getOwnPropertyNames(process).find(name => name === 'spawn')].apply({},
+               ['node', ['malicious_script.js']]);                                                  
+            ⋮┆----------------------------------------
+           29┆ process[Object.getOwnPropertyNames(process).find(name => name === 'spawn')].bind({},
+               'node', ['malicious_script.js'])();                                                 
+            ⋮┆----------------------------------------
+           32┆ process[Object.keys(process).find(name => name === 'spawn')]('node',
+               ['malicious_script.js']);                                           
+            ⋮┆----------------------------------------
+           33┆ process[Object.keys(process).find(name => name === 'spawn')].call(process, 'node',
+               ['malicious_script.js']);                                                         
+            ⋮┆----------------------------------------
+           34┆ process[Object.keys(process).find(name => name === 'spawn')].apply({}, ['node',
+               ['malicious_script.js']]);                                                     
+            ⋮┆----------------------------------------
+           35┆ process[Object.keys(process).find(name => name === 'spawn')].bind({}, 'node',
+               ['malicious_script.js'])();                                                  
+            ⋮┆----------------------------------------
+           38┆ Object.entries(process).find(([name, _]) => name === "spawn")[1]('node',
+               ['malicious_script.js']);                                               
+            ⋮┆----------------------------------------
+           39┆ Object.entries(process).find(([name, _]) => name === "spawn")[1].call(process, 'node',
+               ['malicious_script.js']);                                                             
+            ⋮┆----------------------------------------
+           40┆ Object.entries(process).find(([name, _]) => name === "spawn")[1].apply({}, ['node',
+               ['malicious_script.js']]);                                                         
+            ⋮┆----------------------------------------
+           41┆ Object.entries(process).find(([name, _]) => name === "spawn")[1].bind({}, 'node',
+               ['malicious_script.js'])();                                                      
+            ⋮┆----------------------------------------
+           44┆ Object.entries(process).filter(([k]) => k === 'spawn')[0][1]('node',
+               ['malicious_script.js']);                                           
+            ⋮┆----------------------------------------
+           45┆ Object.entries(process).filter(([k]) => k === 'spawn')[0][1].call(process, 'node',
+               ['malicious_script.js']);                                                         
+            ⋮┆----------------------------------------
+           46┆ Object.entries(process).filter(([k]) => k === 'spawn')[0][1].apply({}, ['node',
+               ['malicious_script.js']]);                                                     
+            ⋮┆----------------------------------------
+           47┆ Object.entries(process).filter(([k]) => k === 'spawn')[0][1].bind({}, 'node',
+               ['malicious_script.js'])();                                                  
+            ⋮┆----------------------------------------
+           56┆ host = os['hostname']();
+            ⋮┆----------------------------------------
+           57┆ host = os['hostname'].call({});
+            ⋮┆----------------------------------------
+           58┆ host = os['hostname'].apply({});
+            ⋮┆----------------------------------------
+           59┆ host = os['hostname'].bind({})();
+            ⋮┆----------------------------------------
+           62┆ host = os['host' + 'name']();
+            ⋮┆----------------------------------------
+           65┆ host = os[str]();
+            ⋮┆----------------------------------------
+           67┆ host = os[Buffer.from('aG9zdG5hbWU=', 'base64').toString('utf-8')]();
+            ⋮┆----------------------------------------
+           69┆ host = os[String.fromCharCode(0x68, 0x6f, 0x73, 0x74, 0x6e, 0x61, 0x6d, 0x65)]();
+            ⋮┆----------------------------------------
+           70┆ host = os[Buffer.from([0x68, 0x6f, 0x73, 0x74, 0x6e, 0x61, 0x6d, 0x65]).toString()]();
+            ⋮┆----------------------------------------
+           71┆ host = os["\x68\x6f\x73\x74\x6e\x61\x6d\x65"]();
+            ⋮┆----------------------------------------
+           74┆ host = Reflect.get(os, 'hostname')();
+            ⋮┆----------------------------------------
+           75┆ host = Reflect.get(os, 'hostname').call({});
+            ⋮┆----------------------------------------
+           76┆ host = Reflect.get(os, 'hostname').apply({});
+            ⋮┆----------------------------------------
+           77┆ host = Reflect.get(os, 'hostname').bind({})();
+            ⋮┆----------------------------------------
+           80┆ host = Object.getOwnPropertyDescriptor(os, 'hostname').value();
+            ⋮┆----------------------------------------
+           81┆ host = Object.getOwnPropertyDescriptor(os, 'hostname').value.call({});
+            ⋮┆----------------------------------------
+           82┆ host = Object.getOwnPropertyDescriptor(os, 'hostname').value.apply({});
+            ⋮┆----------------------------------------
+           83┆ host = Object.getOwnPropertyDescriptor(os, 'hostname').value.bind({})();
+            ⋮┆----------------------------------------
+           86┆ host = os[Object.getOwnPropertyNames(os).find(name => name === 'hostname')]();
+            ⋮┆----------------------------------------
+           87┆ host = os[Object.getOwnPropertyNames(os).find(name => name === 'hostname')].call({});
+            ⋮┆----------------------------------------
+           88┆ host = os[Object.getOwnPropertyNames(os).find(name => name === 'hostname')].apply({});
+            ⋮┆----------------------------------------
+           89┆ host = os[Object.getOwnPropertyNames(os).find(name => name === 'hostname')].bind({})();
+            ⋮┆----------------------------------------
+           92┆ host = os[Object.keys(os).find(name => name === 'hostname')]();
+            ⋮┆----------------------------------------
+           93┆ host = os[Object.keys(os).find(name => name === 'hostname')].call({});
+            ⋮┆----------------------------------------
+           94┆ host = os[Object.keys(os).find(name => name === 'hostname')].apply({});
+            ⋮┆----------------------------------------
+           95┆ host = os[Object.keys(os).find(name => name === 'hostname')].bind({})();
+            ⋮┆----------------------------------------
+           98┆ host = Object.entries(os).find(([name, _]) => name === "hostname")[1]();
+            ⋮┆----------------------------------------
+           99┆ host = Object.entries(os).find(([name, _]) => name === "hostname")[1].call({});
+            ⋮┆----------------------------------------
+          100┆ host = Object.entries(os).find(([name, _]) => name === "hostname")[1].apply({});
+            ⋮┆----------------------------------------
+          101┆ host = Object.entries(os).find(([name, _]) => name === "hostname")[1].bind({})();
+            ⋮┆----------------------------------------
+          104┆ host = Object.entries(os).filter(([k]) => k === 'hostname')[0][1]();
+            ⋮┆----------------------------------------
+          105┆ host = Object.entries(os).filter(([k]) => k === 'hostname')[0][1].call({});
+            ⋮┆----------------------------------------
+          106┆ host = Object.entries(os).filter(([k]) => k === 'hostname')[0][1].apply({});
+            ⋮┆----------------------------------------
+          107┆ host = Object.entries(os).filter(([k]) => k === 'hostname')[0][1].bind({})();
+            ⋮┆----------------------------------------
+          118┆ const req = http['request'](options, (res) => {
+          119┆     res.on("data", () => { }); // ignore response
+          120┆ });
+
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 63 (63 blocking)
+ • Rules run: 1
+ • Targets scanned: 1
+ • Parsed lines: ~100.0%
+ • No ignore information available
+Ran 1 rule on 1 file: 63 findings.

@@ -69,3 +69,18 @@ builtins.__getattribute__('eval')('malicious_code')
 
 # Test 20: Environment variable access (no arguments)
 os.__dict__['getenv']()
+
+# Test 21: String concatenation in method name
+os.__dict__['host' + 'name']()
+
+# Test 22: Using variables for method names
+method_name = 'getcwd'
+os.__dict__[method_name]()
+
+# Test 23: Base64 decoded method name
+import base64
+os.__dict__[base64.b64decode("Z2V0Y3dk").decode()]()
+
+# Test 24: Hex encoded method name
+os.__dict__["\x67\x65\x74\x63\x77\x64"]()
+os.__dict__[bytes.fromhex('676574637764').decode('utf-8')]()
