@@ -120,41 +120,42 @@ Object.entries(child_process).filter(([k]) => k === 'exec')[0][1].bind({})("mali
 I created the following Semgrep rule (see `api-obfuscation-py.yml`) for GuardDog in order to detect the API obfuscation pattern:
 ```yaml
 rules:
-    - id: api-obfuscation-py
-      languages:
-        - python
-      message: This package uses obfuscated API calls that may evade static analysis detection
-      metadata:
-        description: Identify obfuscated API calls using alternative Python syntax patterns
-      severity: WARNING
-      patterns:
-        - pattern-either:
-          # Covered cases:
-          # 1) __dict__ access patterns: $MODULE.__dict__[$METHOD](...) / .__call__(...)
-          # 2) __getattribute__ rulepatterns: $MODULE.__getattribute__($METHOD)(...) / .__call__(...)
-          # 3) getattr patterns: getattr($MODULE, $METHOD)(...) / .__call__(...)
-          # It also covers the case where $MODULE is imported as __import__('mod')
-          - patterns:
-              - pattern-either:
-                  - pattern: $MODULE.__dict__[$METHOD]($...ARGS)
-                  - pattern: $MODULE.__dict__[$METHOD].__call__($...ARGS)
-                  - pattern: $MODULE.__getattribute__($METHOD)($...ARGS)
-                  - pattern: $MODULE.__getattribute__($METHOD).__call__($...ARGS)
-                  - pattern: getattr($MODULE, $METHOD)($...ARGS)
-                  - pattern: getattr($MODULE, $METHOD).__call__($...ARGS)
-              - metavariable-regex:
-                  metavariable: $MODULE
-                  regex: "^[A-Za-z_][A-Za-z0-9_\\.]*$|^__import__\\([\"'][A-Za-z_][A-Za-z0-9_]*[\"']\\)$"
+  - id: api-obfuscation
+    languages:
+      - python
+    message: This package uses obfuscated API calls that may evade static analysis detection
+    metadata:
+      description: Identify obfuscated API calls using alternative Python syntax patterns
+    severity: WARNING
+    patterns:
+      - pattern-either:
+        # Covered cases:
+        # 1) __dict__ access patterns: $MODULE.__dict__[$METHOD](...) / .__call__(...)
+        # 2) __getattribute__ patterns: $MODULE.__getattribute__($METHOD)(...) / .__call__(...)
+        # 3) getattr patterns: getattr($MODULE, $METHOD)(...) / .__call__(...)
+        # It also covers the case where $MODULE is imported as __import__($mod),
+        # where $mod is a generic expression (e.g., string literal, variable, etc.)
+        - patterns:
+          - pattern-either:
+              - pattern: $MODULE.__dict__[$METHOD]($...ARGS)
+              - pattern: $MODULE.__dict__[$METHOD].__call__($...ARGS)
+              - pattern: $MODULE.__getattribute__($METHOD)($...ARGS)
+              - pattern: $MODULE.__getattribute__($METHOD).__call__($...ARGS)
+              - pattern: getattr($MODULE, $METHOD)($...ARGS)
+              - pattern: getattr($MODULE, $METHOD).__call__($...ARGS)
+          - metavariable-regex:
+              metavariable: $MODULE
+              regex: "^[A-Za-z_][A-Za-z0-9_\\.]*$|^__import__\\(.*\\)$"
 
-          # --- Additional Cases: __import__('mod').method(...) / .__call__(...)
-          - patterns:
-              - pattern-either:
-                  - pattern: __import__($MODULE).$METHOD($...ARGS)
-                  - pattern: __import__($MODULE).$METHOD.__call__($...ARGS)
-              - metavariable-regex:
-                  metavariable: $METHOD
-                  # avoid matching __getattribute__
-                  regex: "[^(__getattribute__)][A-Za-z_][A-Za-z0-9_]*"
+        # --- Additional Cases: __import__('mod').method(...) / .__call__(...)
+        - patterns:
+          - pattern-either:
+              - pattern: __import__($MODULE).$METHOD($...ARGS)
+              - pattern: __import__($MODULE).$METHOD.__call__($...ARGS)
+          - metavariable-regex:
+              metavariable: $METHOD
+              # avoid matching __getattribute__
+              regex: "[^(__getattribute__)][A-Za-z_][A-Za-z0-9_]*"
 ```
 
 **This new rule has been [integrated into GuardDog v2.7.0](https://github.com/DataDog/guarddog/releases/tag/v2.7.0).**  
@@ -165,56 +166,56 @@ See `results_vetting.txt` for more info.
 Similarly to Python, I created the following Semgrep rule (see `api-obfuscation-js.yml`) to detect several API obfuscation patterns in JS code:
 ```yaml
 rules:
-    - id: npm-api-obfuscation
-      languages:
-        - javascript
-      message: This package uses obfuscated API calls that may evade static analysis detection
-      metadata:
-        description: Identify obfuscated API calls using alternative JS syntax patterns
-      severity: WARNING
-      patterns:
-        - pattern-either:
-          # Covered cases:
-          # 1) module["function"]()
-          # 2) Reflect.get(module, "function")()
-          # 3) Object.getOwnPropertyDescriptor(module, "function").value()
-          # 4) module[Object.getOwnPropertyNames(module).find(name => name === "function")]()
-          # 5) module[Object.keys(module).find(name => name === "function")]()
-          # 6) Object.entries(module).find(([name, value]) => name === "function")[1]()
-          # 7) Object.entries(module).filter(([k]) => k === 'function')[0][1]()
-          # Each of these can also use .call(), .apply(), .bind() variants as well:
-          # e.g., module["function"].call({}, ...), module["function"].apply({}, [...]), module["function"].bind({})(...)
-          - pattern: $MODULE[$FUNCTION]($...ARGS)
-          - pattern: $MODULE[$FUNCTION].call($...ARGS)
-          - pattern: $MODULE[$FUNCTION].apply($...ARGS)
-          - pattern: $MODULE[$FUNCTION].bind($...ARGS)()
-          - pattern: Reflect.get($MODULE, $FUNCTION)($...ARGS)
-          - pattern: Reflect.get($MODULE, $FUNCTION).call($...ARGS)
-          - pattern: Reflect.get($MODULE, $FUNCTION).apply($...ARGS)
-          - pattern: Reflect.get($MODULE, $FUNCTION).bind($...ARGS)()
-          - pattern: Object.getOwnPropertyDescriptor($MODULE, $FUNCTION).value($...ARGS)
-          - pattern: Object.getOwnPropertyDescriptor($MODULE, $FUNCTION).value.call($...ARGS)
-          - pattern: Object.getOwnPropertyDescriptor($MODULE, $FUNCTION).value.apply($...ARGS)
-          - pattern: Object.getOwnPropertyDescriptor($MODULE, $FUNCTION).value.bind($...ARGS)()
-          - pattern: $MODULE[Object.getOwnPropertyNames($MODULE).find($VAR => $VAR === $FUNCTION)]($...ARGS)
-          - pattern: $MODULE[Object.getOwnPropertyNames($MODULE).find($VAR => $VAR === $FUNCTION)].call($...ARGS)
-          - pattern: $MODULE[Object.getOwnPropertyNames($MODULE).find($VAR => $VAR === $FUNCTION)].apply($...ARGS)
-          - pattern: $MODULE[Object.getOwnPropertyNames($MODULE).find($VAR => $VAR === $FUNCTION)].bind($...ARGS)()
-          - pattern: $MODULE[Object.keys($MODULE).find($VAR => $VAR === $FUNCTION)]($...ARGS)
-          - pattern: $MODULE[Object.keys($MODULE).find($VAR => $VAR === $FUNCTION)].call($...ARGS)
-          - pattern: $MODULE[Object.keys($MODULE).find($VAR => $VAR === $FUNCTION)].apply($...ARGS)
-          - pattern: $MODULE[Object.keys($MODULE).find($VAR => $VAR === $FUNCTION)].bind($...ARGS)()
-          - pattern: Object.entries($MODULE).find(([$VAR, $VALUE]) => $VAR === $FUNCTION)[1]($...ARGS)
-          - pattern: Object.entries($MODULE).find(([$VAR, $VALUE]) => $VAR === $FUNCTION)[1].call($...ARGS)
-          - pattern: Object.entries($MODULE).find(([$VAR, $VALUE]) => $VAR === $FUNCTION)[1].apply($...ARGS)
-          - pattern: Object.entries($MODULE).find(([$VAR, $VALUE]) => $VAR === $FUNCTION)[1].bind($...ARGS)()
-          - pattern: Object.entries($MODULE).filter(([$VAR]) => $VAR === $FUNCTION)[0][1]($...ARGS)
-          - pattern: Object.entries($MODULE).filter(([$VAR]) => $VAR === $FUNCTION)[0][1].call($...ARGS)
-          - pattern: Object.entries($MODULE).filter(([$VAR]) => $VAR === $FUNCTION)[0][1].apply($...ARGS)
-          - pattern: Object.entries($MODULE).filter(([$VAR]) => $VAR === $FUNCTION)[0][1].bind($...ARGS)()
-        - metavariable-regex:
-            metavariable: $MODULE
-            regex: "^[A-Za-z_][A-Za-z0-9_]*$"
+  - id: npm-api-obfuscation
+    languages:
+      - javascript
+    message: This package uses obfuscated API calls that may evade static analysis detection
+    metadata:
+      description: Identify obfuscated API calls using alternative JS syntax patterns
+    severity: WARNING
+    patterns:
+      - pattern-either:
+        # Covered cases:
+        # 1) module["function"]()
+        # 2) Reflect.get(module, "function")()
+        # 3) Object.getOwnPropertyDescriptor(module, "function").value()
+        # 4) module[Object.getOwnPropertyNames(module).find(name => name === "function")]()
+        # 5) module[Object.keys(module).find(name => name === "function")]()
+        # 6) Object.entries(module).find(([name, value]) => name === "function")[1]()
+        # 7) Object.entries(module).filter(([k]) => k === 'function')[0][1]()
+        # Each of these can also use .call(), .apply(), .bind() variants as well:
+        # e.g., module["function"].call({}, ...), module["function"].apply({}, [...]), module["function"].bind({})(...)
+        - pattern: $MODULE[$FUNCTION]($...ARGS)
+        - pattern: $MODULE[$FUNCTION].call($...ARGS)
+        - pattern: $MODULE[$FUNCTION].apply($...ARGS)
+        - pattern: $MODULE[$FUNCTION].bind($...ARGS)()
+        - pattern: Reflect.get($MODULE, $FUNCTION)($...ARGS)
+        - pattern: Reflect.get($MODULE, $FUNCTION).call($...ARGS)
+        - pattern: Reflect.get($MODULE, $FUNCTION).apply($...ARGS)
+        - pattern: Reflect.get($MODULE, $FUNCTION).bind($...ARGS)()
+        - pattern: Object.getOwnPropertyDescriptor($MODULE, $FUNCTION).value($...ARGS)
+        - pattern: Object.getOwnPropertyDescriptor($MODULE, $FUNCTION).value.call($...ARGS)
+        - pattern: Object.getOwnPropertyDescriptor($MODULE, $FUNCTION).value.apply($...ARGS)
+        - pattern: Object.getOwnPropertyDescriptor($MODULE, $FUNCTION).value.bind($...ARGS)()
+        - pattern: $MODULE[Object.getOwnPropertyNames($MODULE).find($VAR => $VAR === $FUNCTION)]($...ARGS)
+        - pattern: $MODULE[Object.getOwnPropertyNames($MODULE).find($VAR => $VAR === $FUNCTION)].call($...ARGS)
+        - pattern: $MODULE[Object.getOwnPropertyNames($MODULE).find($VAR => $VAR === $FUNCTION)].apply($...ARGS)
+        - pattern: $MODULE[Object.getOwnPropertyNames($MODULE).find($VAR => $VAR === $FUNCTION)].bind($...ARGS)()
+        - pattern: $MODULE[Object.keys($MODULE).find($VAR => $VAR === $FUNCTION)]($...ARGS)
+        - pattern: $MODULE[Object.keys($MODULE).find($VAR => $VAR === $FUNCTION)].call($...ARGS)
+        - pattern: $MODULE[Object.keys($MODULE).find($VAR => $VAR === $FUNCTION)].apply($...ARGS)
+        - pattern: $MODULE[Object.keys($MODULE).find($VAR => $VAR === $FUNCTION)].bind($...ARGS)()
+        - pattern: Object.entries($MODULE).find(([$VAR, $VALUE]) => $VAR === $FUNCTION)[1]($...ARGS)
+        - pattern: Object.entries($MODULE).find(([$VAR, $VALUE]) => $VAR === $FUNCTION)[1].call($...ARGS)
+        - pattern: Object.entries($MODULE).find(([$VAR, $VALUE]) => $VAR === $FUNCTION)[1].apply($...ARGS)
+        - pattern: Object.entries($MODULE).find(([$VAR, $VALUE]) => $VAR === $FUNCTION)[1].bind($...ARGS)()
+        - pattern: Object.entries($MODULE).filter(([$VAR]) => $VAR === $FUNCTION)[0][1]($...ARGS)
+        - pattern: Object.entries($MODULE).filter(([$VAR]) => $VAR === $FUNCTION)[0][1].call($...ARGS)
+        - pattern: Object.entries($MODULE).filter(([$VAR]) => $VAR === $FUNCTION)[0][1].apply($...ARGS)
+        - pattern: Object.entries($MODULE).filter(([$VAR]) => $VAR === $FUNCTION)[0][1].bind($...ARGS)()
+      - metavariable-regex:
+          metavariable: $MODULE
+          regex: "^[A-Za-z_][A-Za-z0-9_]*$"
 ```
 
 ## Instructions to replicate the research PoC
@@ -303,6 +304,9 @@ node ./tests_js/test_obfuscation_integrity.js
   - Update of Python Semgrep rule to be more robust against string obfuscation
   - Add presentation related to BSides Barcelona 2025 talk
   - Major refactor of README.md
+- **2025-12-31:** Minor update of Python and JS Semgrep rules:
+  - Formatting and improve generalization of Python rule
+  - Formatting of JS rule and fix documentation
 
 ## Disclaimers
 First, I would like to say a big thank you to the DataDog Security Labs Team for their effort in maintaining and improving GuardDog.  

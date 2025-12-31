@@ -81,6 +81,6 @@ os.__dict__[method_name]()
 import base64
 os.__dict__[base64.b64decode("Z2V0Y3dk").decode()]()
 
-# Test 24: Hex encoded method name
+# Test 24: Hex encoded method name (2 matches)
 os.__dict__["\x67\x65\x74\x63\x77\x64"]()
 os.__dict__[bytes.fromhex('676574637764').decode('utf-8')]()
